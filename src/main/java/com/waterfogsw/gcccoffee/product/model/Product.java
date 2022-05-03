@@ -36,6 +36,17 @@ public class Product {
                 .build();
     }
 
+    public static Product of(long id, Product product) {
+        return new Product(id,
+                product.getName(),
+                product.getCategory(),
+                product.getPrice(),
+                product.getDescription(),
+                product.getCreatedAt(),
+                product.getUpdatedAt()
+        );
+    }
+
     public Product(Builder builder) {
         this(builder.id, builder.name, builder.category, builder.price, builder.description);
     }
