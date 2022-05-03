@@ -51,7 +51,7 @@ public class DefaultProductServiceTests {
             void it_throw_IllegalArgumentException() {
                 final var product = new Product.Builder(0)
                         .name("colombia")
-                        .category(Category.COFFEE_BEAN)
+                        .category(Category.COFFEE_BEAN_PACKAGE)
                         .price(1000)
                         .build();
 

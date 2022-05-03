@@ -107,7 +107,7 @@ public class ProductJdbcRepositoryTests {
             void it_return_saved_voucher() {
                 final var product = new Product.Builder(0)
                         .name("test1")
-                        .category(Category.COFFEE_BEAN)
+                        .category(Category.COFFEE_BEAN_PACKAGE)
                         .price(1000)
                         .description("test")
                         .build();
