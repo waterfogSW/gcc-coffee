@@ -8,16 +8,16 @@ public class Product {
     private final long id;
     private String name;
     private Category category;
-    private long price;
+    private int price;
     private String description;
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Product(long id, String name, Category category, long price, String description) {
+    public Product(long id, String name, Category category, int price, String description) {
         this(id, name, category, price, description, LocalDateTime.now(), LocalDateTime.now());
     }
 
-    public Product(long id, String name, Category category, long price, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Product(long id, String name, Category category, int price, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -44,7 +44,7 @@ public class Product {
         private final long id;
         private String name;
         private Category category;
-        private long price;
+        private int price;
         private String description;
 
         public Builder(long id) {
@@ -61,7 +61,7 @@ public class Product {
             return this;
         }
 
-        public Builder price(long price) {
+        public Builder price(int price) {
             this.price = price;
             return this;
         }
@@ -88,7 +88,7 @@ public class Product {
         return category;
     }
 
-    public long getPrice() {
+    public int getPrice() {
         return price;
     }
 
