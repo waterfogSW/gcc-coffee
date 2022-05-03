@@ -27,6 +27,6 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public List<Product> findAllProduct() {
-        return new ArrayList<>();
+        return productRepository.selectAll();
     }
 }
