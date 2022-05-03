@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -73,5 +74,10 @@ public class ProductJdbcRepository implements ProductRepository {
             throw new IllegalStateException("Error occur while update");
         }
         return product;
+    }
+
+    @Override
+    public List<Product> selectAll() {
+        return jdbcTemplate.query("select * from products", productRowMapper);
     }
 }
