@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class DefaultProductService implements ProductService {
 
     @Override
-    public Product createProduct(Product product) {
+    public Product addProduct(Product product) {
         return null;
     }
 }
