@@ -4,7 +4,6 @@ import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,5 +27,10 @@ public class DefaultProductService implements ProductService {
     @Override
     public List<Product> findAllProduct() {
         return productRepository.selectAll();
+    }
+
+    @Override
+    public Product findById(long id) {
+        return null;
     }
 }

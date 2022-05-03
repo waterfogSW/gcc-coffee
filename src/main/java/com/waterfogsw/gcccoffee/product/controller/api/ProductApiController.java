@@ -33,4 +33,13 @@ public class ProductApiController {
                 .toList();
     }
 
+    @GetMapping("/{id}")
+    public ProductResponse productDetail(@PathVariable("id") long id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        final var product = productService.findById(id);
+        return ProductResponse.from(product);
+    }
 }
