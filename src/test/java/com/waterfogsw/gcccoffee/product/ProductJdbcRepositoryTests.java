@@ -142,4 +142,26 @@ public class ProductJdbcRepositoryTests {
             }
         }
     }
+
+    @Nested
+    @Order(4)
+    @DisplayName("selectById 메서드는")
+    class Describe_selectById {
+
+        @Nested
+        @DisplayName("존재하는 엔티티를 조회하면")
+        class Context_with_exist_Entity {
+
+            @Test
+            @DisplayName("해당 엔티티를 반환한다")
+            void it_return_entity() {
+                final var product = new Product(0, "product1", Category.COFFEE_GRINDER, 10000, "");
+
+                productJdbcRepository.insert(product);
+
+                final var selectProduct = productJdbcRepository.selectById(1L);
+                assertThat(selectProduct.isPresent(), is(true));
+            }
+        }
+    }
 }
