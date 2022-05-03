@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.text.MessageFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -198,8 +200,8 @@ public class ProductApiControllerTests {
     class Describe_productList {
 
         @Nested
-        @DisplayName("호출되면")
-        class Context_with_call {
+        @DisplayName("인자 없이 호출되면")
+        class Context_with_no_arg {
 
             @Test
             @DisplayName("모든 상품 리스트를 반환한다")
@@ -219,6 +221,138 @@ public class ProductApiControllerTests {
                         .getContentAsString();
 
                 final var expectedContent = MessageFormat.format("[{0},{1}]",
+                        objectMapper.writeValueAsString(product1),
+                        objectMapper.writeValueAsString(product2));
+
+                assertThat(resultContent, is(expectedContent));
+            }
+        }
+
+        @Nested
+        @DisplayName("sort=PRICE_ASC 파라미터가 들어오면")
+        class Context_with_price_asc {
+
+            @Test
+            @DisplayName("낮은가격순으로 정렬된 상품 리스트를 반환한다")
+            void it_return_all_products() throws Exception {
+                final var product1 = new Product(1L, "product1", Category.COFFEE_GRINDER, 11000, "");
+                final var product2 = new Product(2L, "product2", Category.COFFEE_GRINDER, 15000, "");
+                final var product3 = new Product(2L, "product2", Category.COFFEE_GRINDER, 12000, "");
+                final List<Product> products = new ArrayList<>(Arrays.asList(product1, product2, product3));
+
+                when(productService.findAllProduct()).thenReturn(products);
+
+                final var request = get(url + "?sort=PRICE_ASC");
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isOk());
+
+                final var resultContent = resultActions.andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                final var expectedContent = MessageFormat.format("[{0},{1},{2}]",
+                        objectMapper.writeValueAsString(product1),
+                        objectMapper.writeValueAsString(product3),
+                        objectMapper.writeValueAsString(product2));
+
+                assertThat(resultContent, is(expectedContent));
+            }
+        }
+
+        @Nested
+        @DisplayName("sort=PRICE_DESC 파라미터가 들어오면")
+        class Context_with_price_desc {
+
+            @Test
+            @DisplayName("높은은가격순으로 정렬된 상품 리스트를 반환한다")
+            void it_return_all_products() throws Exception {
+                final var product1 = new Product(1L, "product1", Category.COFFEE_GRINDER, 11000, "");
+                final var product2 = new Product(2L, "product2", Category.COFFEE_GRINDER, 15000, "");
+                final var product3 = new Product(2L, "product2", Category.COFFEE_GRINDER, 12000, "");
+                final List<Product> products = new ArrayList<>(Arrays.asList(product1, product2, product3));
+
+                when(productService.findAllProduct()).thenReturn(products);
+
+                final var request = get(url + "?sort=PRICE_DESC");
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isOk());
+
+                final var resultContent = resultActions.andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                final var expectedContent = MessageFormat.format("[{0},{1},{2}]",
+                        objectMapper.writeValueAsString(product2),
+                        objectMapper.writeValueAsString(product3),
+                        objectMapper.writeValueAsString(product1));
+
+                assertThat(resultContent, is(expectedContent));
+            }
+        }
+
+        @Nested
+        @DisplayName("sort=DATE_ASC 파라미터가 들어오면")
+        class Context_with_date_asc {
+
+            @Test
+            @DisplayName("최근 등록순로 정렬된 상품 리스트를 반환한다")
+            void it_return_all_products() throws Exception {
+                final var date1 = LocalDateTime.of(2022, 2, 4, 20,20);
+                final var date2 = LocalDateTime.of(2022, 1, 2, 20, 20);
+                final var date3 = LocalDateTime.of(2022, 3, 8, 20, 20);
+
+                final var product1 = new Product(1L, "product1", Category.COFFEE_GRINDER, 11000, "", date1, date1);
+                final var product2 = new Product(2L, "product2", Category.COFFEE_GRINDER, 15000, "", date2, date2);
+                final var product3 = new Product(2L, "product2", Category.COFFEE_GRINDER, 12000, "", date3, date3);
+                final List<Product> products = new ArrayList<>(Arrays.asList(product1, product2, product3));
+
+                when(productService.findAllProduct()).thenReturn(products);
+
+                final var request = get(url + "?sort=DATE_ASC");
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isOk());
+
+                final var resultContent = resultActions.andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                final var expectedContent = MessageFormat.format("[{0},{1},{2}]",
+                        objectMapper.writeValueAsString(product2),
+                        objectMapper.writeValueAsString(product1),
+                        objectMapper.writeValueAsString(product3));
+
+                assertThat(resultContent, is(expectedContent));
+            }
+        }
+
+        @Nested
+        @DisplayName("sort=DATE_DESC 파라미터가 들어오면")
+        class Context_with_date_desc {
+
+            @Test
+            @DisplayName("최근 등록순로 정렬된 상품 리스트를 반환한다")
+            void it_return_all_products() throws Exception {
+                final var date1 = LocalDateTime.of(2022, 2, 4, 20,20);
+                final var date2 = LocalDateTime.of(2022, 1, 2, 20, 20);
+                final var date3 = LocalDateTime.of(2022, 3, 8, 20, 20);
+
+                final var product1 = new Product(1L, "product1", Category.COFFEE_GRINDER, 11000, "", date1, date1);
+                final var product2 = new Product(2L, "product2", Category.COFFEE_GRINDER, 15000, "", date2, date2);
+                final var product3 = new Product(2L, "product2", Category.COFFEE_GRINDER, 12000, "", date3, date3);
+                final List<Product> products = new ArrayList<>(Arrays.asList(product1, product2, product3));
+
+                when(productService.findAllProduct()).thenReturn(products);
+
+                final var request = get(url + "?sort=DATE_DESC");
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isOk());
+
+                final var resultContent = resultActions.andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                final var expectedContent = MessageFormat.format("[{0},{1},{2}]",
+                        objectMapper.writeValueAsString(product3),
                         objectMapper.writeValueAsString(product1),
                         objectMapper.writeValueAsString(product2));
 
