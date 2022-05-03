@@ -4,7 +4,6 @@ import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.repository.ProductRepository;
 import com.waterfogsw.gcccoffee.product.service.DefaultProductService;
-import com.waterfogsw.gcccoffee.product.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -56,7 +55,7 @@ public class DefaultProductServiceTests {
                         .price(1000)
                         .build();
 
-                when(productRepository.insertProduct(any())).thenReturn(product);
+                when(productRepository.insert(any())).thenReturn(product);
 
                 final var addedProduct = productService.addProduct(product);
 

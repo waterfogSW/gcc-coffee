@@ -19,6 +19,6 @@ public class DefaultProductService implements ProductService {
             throw new IllegalArgumentException();
         }
 
-        return productRepository.insertProduct(product);
+        return productRepository.insert(product);
     }
 }
