@@ -1,5 +1,6 @@
 package com.waterfogsw.gcccoffee.product.service;
 
+import com.waterfogsw.gcccoffee.exception.ResourceNotFound;
 import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,10 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Product findById(long id) {
-        return null;
+        final var findProduct = productRepository.selectById(id);
+        if (findProduct.isEmpty()) {
+            throw new ResourceNotFound();
+        }
+        return findProduct.get();
     }
 }

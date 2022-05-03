@@ -7,10 +7,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class ProductJdbcRepository implements ProductRepository {
@@ -80,4 +77,12 @@ public class ProductJdbcRepository implements ProductRepository {
     public List<Product> selectAll() {
         return jdbcTemplate.query("select * from products", productRowMapper);
     }
+
+    @Override
+    public Optional<Product> selectById(long id) {
+        final var param = Collections.singletonMap("id", id);
+        return jdbcTemplate.query("select * from products where id = :id", param, productRowMapper)
+                .stream().findAny();
+    }
+
 }
