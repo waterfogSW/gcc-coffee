@@ -20,7 +20,7 @@ public class ProductApiController {
 
     @PostMapping
     public ProductResponse productAdd(@RequestBody ProductAddRequest request) {
-        final var addedProduct = productService.createProduct(Product.from(request));
+        final var addedProduct = productService.addProduct(Product.from(request));
         return ProductResponse.from(addedProduct);
     }
 }
