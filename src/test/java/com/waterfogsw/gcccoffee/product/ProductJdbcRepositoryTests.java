@@ -117,4 +117,29 @@ public class ProductJdbcRepositoryTests {
             }
         }
     }
+    
+    @Nested
+    @Order(3)
+    @DisplayName("selectAll 메서드는")
+    class Describe_findAll {
+    
+        @Nested
+        @DisplayName("호출되면")
+        class Context_with_call {
+            
+            @Test
+            @Transactional
+            @DisplayName("저장된 모든 상품 리스트를 반환한다")
+            void it_return_products() {
+                final var product1 = new Product(0, "product1", Category.COFFEE_GRINDER, 10000, "");
+                final var product2 = new Product(0, "product2", Category.COFFEE_GRINDER, 12000, "");
+
+                productJdbcRepository.insert(product1);
+                productJdbcRepository.insert(product2);
+
+                final var selectProducts = productJdbcRepository.selectAll();
+                assertThat(selectProducts.size(), is(2));
+            }
+        }
+    }
 }

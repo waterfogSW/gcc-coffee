@@ -1,14 +1,12 @@
 package com.waterfogsw.gcccoffee.product;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.waterfogsw.gcccoffee.product.controller.api.ProductApiController;
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.service.ProductService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,11 +15,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.text.MessageFormat;
+import java.util.*;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,6 +30,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ProductApiControllerTests {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String url = "/api/v1/products";
+
+    @BeforeAll
+    public static void beforeAll() {
+        objectMapper.registerModule(new JavaTimeModule());
+    }
 
     @Mock
     ProductService productService;
@@ -47,8 +54,6 @@ public class ProductApiControllerTests {
     @Nested
     @DisplayName("productAdd 메서드는")
     class Describe_productAdd {
-
-        String url = "/api/v1/products";
 
         @Nested
         @DisplayName("name 이 body 에 없으면")
@@ -184,6 +189,40 @@ public class ProductApiControllerTests {
 
                 final var resultActions = mockMvc.perform(request);
                 resultActions.andExpect(status().isOk());
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("productList 메서드는")
+    class Describe_productList {
+
+        @Nested
+        @DisplayName("호출되면")
+        class Context_with_call {
+
+            @Test
+            @DisplayName("모든 상품 리스트를 반환한다")
+            void it_return_all_products() throws Exception {
+                final var product1 = new Product(1L, "product1", Category.COFFEE_GRINDER, 10000, "");
+                final var product2 = new Product(2L, "product2", Category.COFFEE_GRINDER, 12000, "");
+                final List<Product> products = new ArrayList<>(Arrays.asList(product1, product2));
+
+                when(productService.findAllProduct()).thenReturn(products);
+
+                final var request = get(url);
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isOk());
+
+                final var resultContent = resultActions.andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                final var expectedContent = MessageFormat.format("[{0},{1}]",
+                        objectMapper.writeValueAsString(product1),
+                        objectMapper.writeValueAsString(product2));
+
+                assertThat(resultContent, is(expectedContent));
             }
         }
     }
