@@ -2,12 +2,15 @@ package com.waterfogsw.gcccoffee.product;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.waterfogsw.gcccoffee.exception.ControllerAdvisor;
 import com.waterfogsw.gcccoffee.product.controller.api.ProductApiController;
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.service.ProductService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.text.MessageFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -50,6 +52,7 @@ public class ProductApiControllerTests {
     @BeforeEach
     void beforeEach() {
         mockMvc = MockMvcBuilders.standaloneSetup(productApiController)
+                .setControllerAdvice(ControllerAdvisor.class)
                 .build();
     }
 
@@ -297,7 +300,7 @@ public class ProductApiControllerTests {
             @Test
             @DisplayName("최근 등록순로 정렬된 상품 리스트를 반환한다")
             void it_return_all_products() throws Exception {
-                final var date1 = LocalDateTime.of(2022, 2, 4, 20,20);
+                final var date1 = LocalDateTime.of(2022, 2, 4, 20, 20);
                 final var date2 = LocalDateTime.of(2022, 1, 2, 20, 20);
                 final var date3 = LocalDateTime.of(2022, 3, 8, 20, 20);
 
@@ -332,7 +335,7 @@ public class ProductApiControllerTests {
             @Test
             @DisplayName("최근 등록순로 정렬된 상품 리스트를 반환한다")
             void it_return_all_products() throws Exception {
-                final var date1 = LocalDateTime.of(2022, 2, 4, 20,20);
+                final var date1 = LocalDateTime.of(2022, 2, 4, 20, 20);
                 final var date2 = LocalDateTime.of(2022, 1, 2, 20, 20);
                 final var date3 = LocalDateTime.of(2022, 3, 8, 20, 20);
 
@@ -357,6 +360,26 @@ public class ProductApiControllerTests {
                         objectMapper.writeValueAsString(product2));
 
                 assertThat(resultContent, is(expectedContent));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("productDetail 메서드는")
+    class Describe_productDetail {
+
+        @Nested
+        @DisplayName("id 값이 0이하이면")
+        class Context_with_below_zero {
+
+            @ParameterizedTest
+            @ValueSource(longs = {-1, 0})
+            @DisplayName("BadRequest 를 반환한다")
+            void it_returns(long id) throws Exception {
+
+                final var request = get(url + "/" + id);
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
             }
         }
     }
