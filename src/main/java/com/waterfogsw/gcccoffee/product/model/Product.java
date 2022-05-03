@@ -14,13 +14,17 @@ public class Product {
     private LocalDateTime updatedAt;
 
     public Product(long id, String name, Category category, long price, String description) {
+        this(id, name, category, price, description, LocalDateTime.now(), LocalDateTime.now());
+    }
+
+    public Product(long id, String name, Category category, long price, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.price = price;
         this.description = description;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public static Product from(ProductAddRequest request) {
