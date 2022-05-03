@@ -25,9 +25,10 @@ public class ProductApiController {
     }
 
     @GetMapping
-    public List<ProductResponse> productList(SortType type) {
+    public List<ProductResponse> productList(SortType sort) {
         return productService.findAllProduct()
                 .stream()
+                .sorted(sort == null ? Comparator.comparing(Product::getId) : sort.getComparator())
                 .map(ProductResponse::from)
                 .toList();
     }
