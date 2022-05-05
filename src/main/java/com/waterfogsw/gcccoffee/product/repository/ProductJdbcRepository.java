@@ -13,7 +13,7 @@ import java.util.*;
 public class ProductJdbcRepository implements ProductRepository {
 
     private static final RowMapper<Product> productRowMapper = (resultSet, i) -> {
-        final var id = resultSet.getLong("id");
+        final var id = resultSet.getLong("product_id");
         final var name = resultSet.getString("name");
         final var category = Category.valueOf(resultSet.getString("category"));
         final var price = resultSet.getInt("price");
@@ -64,7 +64,7 @@ public class ProductJdbcRepository implements ProductRepository {
         }
 
         final var updateSql = "UPDATE products SET name = :name, category = :category, price = :price, " +
-                "description = :description, updated_at = :updatedAt WHERE id = :id";
+                "description = :description, updated_at = :updatedAt WHERE product_id = :id";
         final var affectedRows = jdbcTemplate.update(updateSql, toParamMap(product));
 
         if (affectedRows != 1) {
@@ -81,7 +81,7 @@ public class ProductJdbcRepository implements ProductRepository {
     @Override
     public Optional<Product> selectById(long id) {
         final var param = Collections.singletonMap("id", id);
-        return jdbcTemplate.query("select * from products where id = :id", param, productRowMapper)
+        return jdbcTemplate.query("select * from products where product_id = :id", param, productRowMapper)
                 .stream().findAny();
     }
 

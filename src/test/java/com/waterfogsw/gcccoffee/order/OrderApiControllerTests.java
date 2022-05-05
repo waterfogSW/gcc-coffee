@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class OrderApiControllerTests {
 
     private static final Gson gson = new Gson();
-    private static final String url = "/api/v1/orders";
+    private static final String url = "/api/v1/order";
 
     @Mock
     OrderService orderService;
