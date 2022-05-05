@@ -4,7 +4,7 @@ import com.waterfogsw.gcccoffee.exception.ResourceNotFound;
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.repository.ProductRepository;
-import com.waterfogsw.gcccoffee.product.service.DefaultProductService;
+import com.waterfogsw.gcccoffee.product.service.ProductDefaultService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,13 +27,13 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class DefaultProductServiceTests {
+public class ProductDefaultServiceTests {
 
     @Mock
     ProductRepository productRepository;
 
     @InjectMocks
-    DefaultProductService productService;
+    ProductDefaultService productService;
 
     @Nested
     @DisplayName("addProduct 메서드는")

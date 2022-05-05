@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DefaultProductService implements ProductService {
+public class ProductDefaultService implements ProductService {
 
     private final ProductRepository productRepository;
 
-    public DefaultProductService(ProductRepository productRepository) {
+    public ProductDefaultService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
