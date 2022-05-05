@@ -363,6 +363,37 @@ public class ProductApiControllerTests {
                 assertThat(resultContent, is(expectedContent));
             }
         }
+
+        @Nested
+        @DisplayName("sort=DATE_DESC 파라미터가 들어오면")
+        class Context_with_valid_category {
+
+            @Test
+            @DisplayName("해당 카테고리의 상품을 반환한다 ")
+            void it_return_all_products() throws Exception {
+
+                final var product1 = new Product(1L, "product1", Category.COFFEE_GRINDER, 11000, "");
+                final var product2 = new Product(2L, "product2", Category.COFFEE_BEAN_PACKAGE, 15000, "");
+                final var product3 = new Product(2L, "product2", Category.COFFEE_GRINDER, 12000, "");
+                final List<Product> products = new ArrayList<>(Arrays.asList(product1, product2, product3));
+
+                when(productService.findAllProduct()).thenReturn(products);
+
+                final var request = get(url + "?category=COFFEE_GRINDER");
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isOk());
+
+                final var resultContent = resultActions.andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                final var expectedContent = MessageFormat.format("[{0},{1}]",
+                        objectMapper.writeValueAsString(product1),
+                        objectMapper.writeValueAsString(product3));
+
+                assertThat(resultContent, is(expectedContent));
+            }
+        }
     }
 
     @Nested
