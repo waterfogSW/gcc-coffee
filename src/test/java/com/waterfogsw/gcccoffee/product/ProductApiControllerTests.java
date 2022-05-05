@@ -25,6 +25,7 @@ import java.util.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -380,6 +381,24 @@ public class ProductApiControllerTests {
                 final var request = get(url + "/" + id);
                 final var resultActions = mockMvc.perform(request);
                 resultActions.andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("id 값이 1이상 이면")
+        class Context_with_over_zero {
+
+            @ParameterizedTest
+            @ValueSource(longs = {1, 100})
+            @DisplayName("BadRequest 를 반환한다")
+            void it_returns(long id) throws Exception {
+                final var findProduct = new Product(1L, "product1", Category.COFFEE_GRINDER, 11000, "");
+                when(productService.findById(anyLong())).thenReturn(findProduct);
+
+                final var request = get(url + "/" + id);
+                final var resultActions = mockMvc.perform(request);
+
+                resultActions.andExpect(status().isOk());
             }
         }
     }
