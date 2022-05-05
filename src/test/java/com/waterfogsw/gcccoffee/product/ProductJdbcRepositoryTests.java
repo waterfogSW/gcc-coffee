@@ -23,6 +23,7 @@ import javax.sql.DataSource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
@@ -97,6 +98,25 @@ public class ProductJdbcRepositoryTests {
             @DisplayName("IllegalArgumentException 예외를 발생시킨다")
             void it_throw_error() {
                 assertThrows(IllegalArgumentException.class, () -> productJdbcRepository.insert(null));
+            }
+        }
+
+        @Nested
+        @DisplayName("product 가 정상적으로 저장되면")
+        class Context_with_voucher_saved {
+
+            @Test
+            @Transactional
+            @DisplayName("예외가 발생하지 않는다")
+            void it_return_saved_voucher() {
+                final var product = new Product.Builder(0)
+                        .name("test1")
+                        .category(Category.COFFEE_BEAN_PACKAGE)
+                        .price(1000)
+                        .description("test")
+                        .build();
+
+                assertDoesNotThrow(() -> productJdbcRepository.insert(product));
             }
         }
     }
