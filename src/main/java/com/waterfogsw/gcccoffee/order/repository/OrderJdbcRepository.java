@@ -49,13 +49,17 @@ public class OrderJdbcRepository implements OrderRepository {
     }
 
     @Override
-    public Order insert(Order order) {
+    public void insert(Order order) {
         if (order == null) {
             throw new IllegalArgumentException();
         }
 
-        jdbcTemplate.update("INSERT INTO orders(order_id, email, address, postcode, order_status, created_at, updated_at) " +
+        final var affectedRows = jdbcTemplate.update("INSERT INTO orders(order_id, email, address, postcode, order_status, created_at, updated_at) " +
                 "VALUES (:id, :email, :address, :postcode, :orderStatus, :createdAt, :updatedAt)", toOrderParamMap(order));
+
+        if (affectedRows != 1) {
+            throw new IllegalStateException();
+        }
 
         final var orderId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Collections.emptyMap(), Long.class);
 
@@ -63,12 +67,8 @@ public class OrderJdbcRepository implements OrderRepository {
             throw new IllegalStateException();
         }
 
-        final var insertedOrder = Order.of(orderId, order);
-
         order.getOrderItems().forEach(item -> jdbcTemplate.update("INSERT INTO order_products(order_id, product_id, category, price, quantity, created_at, updated_at) " +
                         "VALUES (:orderId, :productId, :category, :price, :quantity, :createdAt, :updatedAt)",
-                toOrderProductParamMap(insertedOrder.getId(), insertedOrder.getCreatedAt(), insertedOrder.getUpdatedAt(), item)));
-
-        return insertedOrder;
+                toOrderProductParamMap(orderId, order.getCreatedAt(), order.getUpdatedAt(), item)));
     }
 }

@@ -22,6 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,19 +51,13 @@ public class OrderDefaultServiceTests {
         class 인자가_null_이_아니면 {
 
             @Test
-            void 생성된_주문을_반환한다() {
+            void repository_insert_메서드를_호출한다() {
                 final var orderProduct = new OrderProduct(1, Category.COFFEE_GRINDER, 10000, 1);
                 final var orderProducts = new ArrayList<>(List.of(orderProduct));
                 final var order = new Order(new Email("test@naver.com"), "영통구", "111-111", orderProducts);
-                when(orderRepository.insert(any(Order.class))).thenReturn(order);
 
-                final var addedOrder = orderDefaultService.addOrder(order);
-
-                assertThat(addedOrder.getAddress(), is(addedOrder.getAddress()));
-                assertThat(addedOrder.getOrderStatus(), is(addedOrder.getOrderStatus()));
-                assertThat(addedOrder.getEmail(), is(addedOrder.getEmail()));
-                assertThat(addedOrder.getCreatedAt(), is(addedOrder.getCreatedAt()));
-                assertThat(addedOrder.getUpdatedAt(), is(addedOrder.getUpdatedAt()));
+                orderDefaultService.addOrder(order);
+                verify(orderRepository).insert(any(Order.class));
             }
         }
     }

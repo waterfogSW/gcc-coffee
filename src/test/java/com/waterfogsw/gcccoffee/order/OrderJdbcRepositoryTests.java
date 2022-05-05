@@ -25,10 +25,16 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @Sql(scripts = {"classpath:sql/testTableInit.sql"})
 @Sql(scripts = {"classpath:sql/testTableRemove.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -110,7 +116,7 @@ public class OrderJdbcRepositoryTests {
 
             @Test
             @Transactional
-            @DisplayName("저장한 엔티티를 리턴한다")
+            @DisplayName("예외가 발생하지 않는다")
             void it_return_saved_voucher() {
                 final var product1 = new Product.Builder(0).name("test")
                         .category(Category.COFFEE_GRINDER)
@@ -136,9 +142,8 @@ public class OrderJdbcRepositoryTests {
                 final var orderProducts = new ArrayList<>(Arrays.asList(orderProduct1, orderProduct2));
                 final var order = new com.waterfogsw.gcccoffee.order.model
                         .Order(new Email("test@naver.com"), "풍덕천동", "111-111", orderProducts);
-                final var insertedProduct = orderJdbcRepository.insert(order);
 
-                assertThat(insertedProduct.getId(), is(1L));
+                assertDoesNotThrow(() -> orderJdbcRepository.insert(order));
             }
         }
     }

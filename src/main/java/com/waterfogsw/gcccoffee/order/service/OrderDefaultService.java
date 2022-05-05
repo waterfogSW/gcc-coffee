@@ -14,11 +14,11 @@ public class OrderDefaultService implements OrderService {
     }
 
     @Override
-    public Order addOrder(Order order) {
+    public void addOrder(Order order) {
         if(order == null) {
             throw new IllegalArgumentException();
         }
 
-        return orderRepository.insert(order);
+        orderRepository.insert(order);
     }
 }

@@ -18,7 +18,7 @@ public class OrderApiController {
     }
 
     @PostMapping
-    public Order orderAdd(final @RequestBody OrderAddRequest request) {
-        return orderService.addOrder(Order.from(request));
+    public void orderAdd(final @RequestBody OrderAddRequest request) {
+        orderService.addOrder(Order.from(request));
     }
 }
