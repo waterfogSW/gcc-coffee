@@ -42,7 +42,7 @@ public class ProductJdbcRepository implements ProductRepository {
     }
 
     @Override
-    public Product insert(Product product) {
+    public void insert(Product product) {
         if (product == null) {
             throw new IllegalArgumentException();
         }
@@ -55,12 +55,7 @@ public class ProductJdbcRepository implements ProductRepository {
             if (affectedRows != 1) {
                 throw new IllegalStateException("Nothing was inserted");
             }
-
-            final var id = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Collections.emptyMap(), Long.class);
-            if (id == null) {
-                throw new IllegalStateException();
-            }
-            return Product.of(id, product);
+            return;
         }
 
         final var updateSql = "UPDATE products SET name = :name, category = :category, price = :price, " +
@@ -70,7 +65,6 @@ public class ProductJdbcRepository implements ProductRepository {
         if (affectedRows != 1) {
             throw new IllegalStateException("Error occur while update");
         }
-        return product;
     }
 
     @Override

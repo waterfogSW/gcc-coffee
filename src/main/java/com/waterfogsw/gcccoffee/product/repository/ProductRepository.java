@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository {
-    Product insert(Product product);
+    void insert(Product product);
 
     List<Product> selectAll();
 

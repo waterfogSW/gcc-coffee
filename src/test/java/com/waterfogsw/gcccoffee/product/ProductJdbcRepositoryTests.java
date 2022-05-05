@@ -20,14 +20,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 
 @Sql(scripts = {"classpath:sql/testTableInit.sql"})
-@Sql(scripts= {"classpath:sql/testTableRemove.sql"}, executionPhase= Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = {"classpath:sql/testTableRemove.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -74,6 +80,8 @@ public class ProductJdbcRepositoryTests {
         }
     }
 
+    NamedParameterJdbcTemplate jdbcTemplate = mock(NamedParameterJdbcTemplate.class);
+
     @Test
     @Order(1)
     @DisplayName("datasource 확인")
@@ -96,37 +104,17 @@ public class ProductJdbcRepositoryTests {
                 assertThrows(IllegalArgumentException.class, () -> productJdbcRepository.insert(null));
             }
         }
-
-        @Nested
-        @DisplayName("product 가 정상적으로 저장되면")
-        class Context_with_voucher_saved {
-
-            @Test
-            @Transactional
-            @DisplayName("저장한 엔티티를 리턴한다")
-            void it_return_saved_voucher() {
-                final var product = new Product.Builder(0)
-                        .name("test1")
-                        .category(Category.COFFEE_BEAN_PACKAGE)
-                        .price(1000)
-                        .description("test")
-                        .build();
-
-                final var insertedProduct = productJdbcRepository.insert(product);
-                assertThat(insertedProduct.getId(), is(1L));
-            }
-        }
     }
-    
+
     @Nested
     @Order(3)
     @DisplayName("selectAll 메서드는")
     class Describe_findAll {
-    
+
         @Nested
         @DisplayName("호출되면")
         class Context_with_call {
-            
+
             @Test
             @Transactional
             @DisplayName("저장된 모든 상품 리스트를 반환한다")

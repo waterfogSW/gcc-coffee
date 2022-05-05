@@ -186,8 +186,6 @@ public class ProductApiControllerTests {
                 postRequest.put("category", product.getCategory().name());
                 postRequest.put("price", String.valueOf(product.getPrice()));
 
-                when(productService.addProduct(any())).thenReturn(product);
-
                 final var content = objectMapper.writeValueAsString(postRequest);
                 final var request = post(url)
                         .content(content)

@@ -17,12 +17,12 @@ public class ProductDefaultService implements ProductService {
     }
 
     @Override
-    public Product addProduct(Product product) {
+    public void addProduct(Product product) {
         if (product == null) {
             throw new IllegalArgumentException();
         }
 
-        return productRepository.insert(product);
+        productRepository.insert(product);
     }
 
     @Override

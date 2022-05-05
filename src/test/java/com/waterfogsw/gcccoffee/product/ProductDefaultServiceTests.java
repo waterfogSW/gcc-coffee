@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductDefaultServiceTests {
@@ -55,7 +55,7 @@ public class ProductDefaultServiceTests {
         class Context_with_call {
 
             @Test
-            @DisplayName("저장한 값을 반환한다")
+            @DisplayName("repository 의 insert 메서드를 호출한다")
             void it_throw_IllegalArgumentException() {
                 final var product = new Product.Builder(0)
                         .name("colombia")
@@ -63,15 +63,8 @@ public class ProductDefaultServiceTests {
                         .price(1000)
                         .build();
 
-                when(productRepository.insert(any())).thenReturn(product);
-
-                final var addedProduct = productService.addProduct(product);
-
-                assertThat(addedProduct.getName(), is(product.getName()));
-                assertThat(addedProduct.getCategory(), is(product.getCategory()));
-                assertThat(addedProduct.getDescription(), is(product.getDescription()));
-                assertThat(addedProduct.getCreatedAt(), is(product.getCreatedAt()));
-                assertThat(addedProduct.getUpdatedAt(), is(product.getUpdatedAt()));
+                productService.addProduct(product);
+                verify(productRepository).insert(any());
             }
         }
     }
