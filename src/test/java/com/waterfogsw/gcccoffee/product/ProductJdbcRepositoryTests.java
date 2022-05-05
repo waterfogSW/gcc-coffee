@@ -20,16 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 
 @Sql(scripts = {"classpath:sql/testTableInit.sql"})
@@ -149,6 +144,18 @@ public class ProductJdbcRepositoryTests {
 
                 final var selectProduct = productJdbcRepository.selectById(1L);
                 assertThat(selectProduct.isPresent(), is(true));
+            }
+        }
+
+        @Nested
+        @DisplayName("존재하지않는 엔티티를 조회하면")
+        class Context_with_not_exist_Entity {
+
+            @Test
+            @DisplayName("Optional.empty 를 반환한다")
+            void it_return_entity() {
+                final var selectProduct = productJdbcRepository.selectById(1L);
+                assertThat(selectProduct.isEmpty(), is(true));
             }
         }
     }
