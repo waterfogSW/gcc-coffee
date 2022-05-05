@@ -2,6 +2,7 @@ package com.waterfogsw.gcccoffee.product.controller.api;
 
 import com.waterfogsw.gcccoffee.product.controller.dto.ProductAddRequest;
 import com.waterfogsw.gcccoffee.product.controller.dto.ProductResponse;
+import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +26,10 @@ public class ProductApiController {
     }
 
     @GetMapping
-    public List<ProductResponse> productList(SortType sort) {
+    public List<ProductResponse> productList(SortType sort, Category category) {
         return productService.findAllProduct()
                 .stream()
+                .filter(product -> category == null || product.getCategory() == category)
                 .sorted(sort == null ? Comparator.comparing(Product::getId) : sort.getComparator())
                 .map(ProductResponse::from)
                 .toList();
