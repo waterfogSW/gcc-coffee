@@ -1,4 +1,4 @@
-package com.waterfogsw.gcccoffee.exception;
+package com.waterfogsw.gcccoffee.common.exception;
 
 public class ResourceNotFound extends RuntimeException {
     public ResourceNotFound() {

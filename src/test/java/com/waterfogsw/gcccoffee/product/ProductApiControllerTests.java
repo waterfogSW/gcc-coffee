@@ -2,7 +2,7 @@ package com.waterfogsw.gcccoffee.product;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.waterfogsw.gcccoffee.exception.ControllerAdvisor;
+import com.waterfogsw.gcccoffee.common.exception.ControllerAdvisor;
 import com.waterfogsw.gcccoffee.product.controller.api.ProductApiController;
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;

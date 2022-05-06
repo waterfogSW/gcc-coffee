@@ -1,6 +1,6 @@
 package com.waterfogsw.gcccoffee.product;
 
-import com.waterfogsw.gcccoffee.exception.ResourceNotFound;
+import com.waterfogsw.gcccoffee.common.exception.ResourceNotFound;
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.repository.ProductRepository;

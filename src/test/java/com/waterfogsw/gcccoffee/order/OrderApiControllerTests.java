@@ -1,7 +1,7 @@
 package com.waterfogsw.gcccoffee.order;
 
 import com.google.gson.Gson;
-import com.waterfogsw.gcccoffee.exception.ControllerAdvisor;
+import com.waterfogsw.gcccoffee.common.exception.ControllerAdvisor;
 import com.waterfogsw.gcccoffee.order.controller.api.OrderApiController;
 import com.waterfogsw.gcccoffee.order.model.OrderProduct;
 import com.waterfogsw.gcccoffee.order.service.OrderService;
