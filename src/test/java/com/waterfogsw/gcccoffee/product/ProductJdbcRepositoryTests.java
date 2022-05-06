@@ -179,4 +179,27 @@ public class ProductJdbcRepositoryTests {
             }
         }
     }
+
+    @Nested
+    @Order(5)
+    class deleteById_메서드는 {
+
+        @Nested
+        class 호출되면 {
+
+            @Test
+            void 해당_id_값의_레코드를_삭제한다() {
+                final var product = new Product(0, "product1", Category.COFFEE_GRINDER, 10000, "");
+
+                productJdbcRepository.insert(product);
+
+                final var findProduct = productJdbcRepository.selectById(1);
+                assertThat(findProduct.isPresent(), is(true));
+
+                productJdbcRepository.deleteById(1);
+                final var findProductAfterDelete = productJdbcRepository.selectById(1);
+                assertThat(findProductAfterDelete.isEmpty(), is(true));
+            }
+        }
+    }
 }

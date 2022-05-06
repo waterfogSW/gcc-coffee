@@ -41,6 +41,6 @@ public class ProductDefaultService implements ProductService {
 
     @Override
     public void removeProduct(long id) {
-        
+        productRepository.deleteById(id);
     }
 }

@@ -11,4 +11,6 @@ public interface ProductRepository {
     List<Product> selectAll();
 
     Optional<Product> selectById(long id);
+
+    void deleteById(long id);
 }

@@ -2,6 +2,7 @@ package com.waterfogsw.gcccoffee.product.repository;
 
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -81,6 +82,12 @@ public class ProductJdbcRepository implements ProductRepository {
         final var param = Collections.singletonMap("id", id);
         return jdbcTemplate.query("select * from products where product_id = :id", param, productRowMapper)
                 .stream().findAny();
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(long id) {
+        jdbcTemplate.update("delete from products where product_id = :id", Collections.singletonMap("id", String.valueOf(id)));
     }
 
 }

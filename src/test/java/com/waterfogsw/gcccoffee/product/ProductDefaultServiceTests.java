@@ -24,7 +24,8 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductDefaultServiceTests {
@@ -125,6 +126,20 @@ public class ProductDefaultServiceTests {
             void it_product_list() {
                 when(productRepository.selectById(anyLong())).thenReturn(Optional.empty());
                 assertThrows(ResourceNotFound.class, () -> productService.findById(1L));
+            }
+        }
+    }
+
+    @Nested
+    class removeProduct_메서드는 {
+
+        @Nested
+        class 호출되면 {
+
+            @Test
+            void repository_의_deleteById_메서드를_호출한다() {
+                productService.removeProduct(1);
+                verify(productRepository).deleteById(anyLong());
             }
         }
     }
