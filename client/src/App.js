@@ -55,7 +55,7 @@ function App() {
         </div>
         <div className="card">
           <div className="row">
-            <div className="col-md-8 mt-4 d-flex flex-column align-items-start p-3 pt-0">
+            <div className="col-md-8 mt-4 d-flex flex-column align-items-center p-3 pt-0">
               <ProductList products={products} onAddClick={handleAddClicked}/>
             </div>
             <div className="col-md-4 summary p-4">

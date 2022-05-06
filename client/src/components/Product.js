@@ -16,7 +16,7 @@ export function Product(props) {
                 <div className="row text-muted">{category}</div>
                 <div className="row">{productName}</div>
             </div>
-            <div className="col text-center price">{price}원</div>
+            <div className="col text-end price">{price}원</div>
             <div className="col text-end action">
                 <button onClick={handleAddBtnClicked} className="btn btn-small btn-outline-dark">
                     추가
