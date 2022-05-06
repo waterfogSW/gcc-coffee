@@ -26,12 +26,12 @@ public class ProductAdminController {
         return "product-list";
     }
 
-    @GetMapping("new-product")
+    @GetMapping("/products/new")
     public String newProduct() {
         return "new-product";
     }
 
-    @PostMapping("/products")
+    @PostMapping("/products/new")
     public String newProduct(ProductAddRequest request) {
         productService.addProduct(Product.from(request));
         return "redirect:/products";
