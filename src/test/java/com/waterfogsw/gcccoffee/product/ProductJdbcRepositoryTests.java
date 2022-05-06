@@ -156,6 +156,7 @@ public class ProductJdbcRepositoryTests {
         class Context_with_exist_Entity {
 
             @Test
+            @Transactional
             @DisplayName("해당 엔티티를 반환한다")
             void it_return_entity() {
                 final var product = new Product(0, "product1", Category.COFFEE_GRINDER, 10000, "");
@@ -172,6 +173,7 @@ public class ProductJdbcRepositoryTests {
         class Context_with_not_exist_Entity {
 
             @Test
+            @Transactional
             @DisplayName("Optional.empty 를 반환한다")
             void it_return_entity() {
                 final var selectProduct = productJdbcRepository.selectById(1L);
@@ -188,6 +190,7 @@ public class ProductJdbcRepositoryTests {
         class 호출되면 {
 
             @Test
+            @Transactional
             void 해당_id_값의_레코드를_삭제한다() {
                 final var product = new Product(0, "product1", Category.COFFEE_GRINDER, 10000, "");
 
