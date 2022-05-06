@@ -4,6 +4,7 @@ import com.waterfogsw.gcccoffee.order.model.Order;
 import com.waterfogsw.gcccoffee.order.model.OrderProduct;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -49,6 +50,7 @@ public class OrderJdbcRepository implements OrderRepository {
     }
 
     @Override
+    @Transactional
     public void insert(Order order) {
         if (order == null) {
             throw new IllegalArgumentException();

@@ -5,6 +5,7 @@ import com.waterfogsw.gcccoffee.product.model.Product;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -42,6 +43,7 @@ public class ProductJdbcRepository implements ProductRepository {
     }
 
     @Override
+    @Transactional
     public void insert(Product product) {
         if (product == null) {
             throw new IllegalArgumentException();
@@ -68,11 +70,13 @@ public class ProductJdbcRepository implements ProductRepository {
     }
 
     @Override
+    @Transactional
     public List<Product> selectAll() {
         return jdbcTemplate.query("select * from products", productRowMapper);
     }
 
     @Override
+    @Transactional
     public Optional<Product> selectById(long id) {
         final var param = Collections.singletonMap("id", id);
         return jdbcTemplate.query("select * from products where product_id = :id", param, productRowMapper)
