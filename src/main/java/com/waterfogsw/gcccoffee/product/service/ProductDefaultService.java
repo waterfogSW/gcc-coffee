@@ -38,4 +38,9 @@ public class ProductDefaultService implements ProductService {
         }
         return findProduct.get();
     }
+
+    @Override
+    public void removeProduct(long id) {
+        
+    }
 }

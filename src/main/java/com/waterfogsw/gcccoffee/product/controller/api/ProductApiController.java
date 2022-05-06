@@ -43,4 +43,13 @@ public class ProductApiController {
         final var product = productService.findById(id);
         return ProductResponse.from(product);
     }
+
+    @DeleteMapping("/{id}")
+    public void productRemove(@PathVariable("id") long id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException();
+        }
+        
+        productService.removeProduct(id);
+    }
 }

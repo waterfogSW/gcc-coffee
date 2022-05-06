@@ -24,11 +24,10 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -428,6 +427,33 @@ public class ProductApiControllerTests {
                 final var resultActions = mockMvc.perform(request);
 
                 resultActions.andExpect(status().isOk());
+            }
+        }
+    }
+
+    @Nested
+    class productRemove_메서드는 {
+
+        @Nested
+        class 매개변수가_1이상이면 {
+
+            @Test
+            void service_의_removeProduct_메서드를_호출한다() throws Exception {
+                final var request = delete(url + "/" + 1);
+                final var resultActions = mockMvc.perform(request);
+                verify(productService).removeProduct(anyLong());
+            }
+        }
+
+        @Nested
+        class 매개변수가_0이하이면 {
+
+            @ParameterizedTest
+            @ValueSource(longs = {-1, 0})
+            void badRequest_를_응답한다(long id) throws Exception {
+                final var request = delete(url + "/" + id);
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
             }
         }
     }
