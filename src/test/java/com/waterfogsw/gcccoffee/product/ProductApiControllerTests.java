@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class ProductApiControllerTests {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -433,13 +432,16 @@ public class ProductApiControllerTests {
     }
 
     @Nested
-    class productRemove_메서드는 {
+    @DisplayName("productRemove 메서드는")
+    class Describe_productRemove {
 
         @Nested
-        class 매개변수가_1이상이면 {
+        @DisplayName("매개변수가 1이상이면")
+        class Context_with_arg_over_one {
 
             @Test
-            void service_의_removeProduct_메서드를_호출한다() throws Exception {
+            @DisplayName("service 의 removeProduct 메서드를_호출한다")
+            void It_call_removeProduct() throws Exception {
                 final var request = delete(url + "/" + 1);
                 final var resultActions = mockMvc.perform(request);
                 verify(productService).removeProduct(anyLong());
@@ -447,11 +449,13 @@ public class ProductApiControllerTests {
         }
 
         @Nested
-        class 매개변수가_0이하이면 {
+        @DisplayName("매개변수가 0이하이면")
+        class Context_with_argUnderZero {
 
             @ParameterizedTest
             @ValueSource(longs = {-1, 0})
-            void badRequest_를_응답한다(long id) throws Exception {
+            @DisplayName("service 의 removeProduct 메서드를_호출한다")
+            void It_call_removeProduct(long id) throws Exception {
                 final var request = delete(url + "/" + id);
                 final var resultActions = mockMvc.perform(request);
                 resultActions.andExpect(status().isBadRequest());

@@ -131,13 +131,16 @@ public class ProductDefaultServiceTests {
     }
 
     @Nested
-    class removeProduct_메서드는 {
+    @DisplayName("removeProduct 메서드는")
+    class Describe_removeProduct {
 
         @Nested
-        class 호출되면 {
+        @DisplayName("호출되면")
+        class Context_with_call {
 
             @Test
-            void repository_의_deleteById_메서드를_호출한다() {
+            @DisplayName("repository 의 deleteById 메서드를_호출한다")
+            void It_call_deleteById() {
                 productService.removeProduct(1);
                 verify(productRepository).deleteById(anyLong());
             }

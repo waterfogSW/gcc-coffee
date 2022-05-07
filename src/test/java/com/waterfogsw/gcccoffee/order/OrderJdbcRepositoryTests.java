@@ -25,16 +25,11 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @Sql(scripts = {"classpath:sql/testTableInit.sql"})
 @Sql(scripts = {"classpath:sql/testTableRemove.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
