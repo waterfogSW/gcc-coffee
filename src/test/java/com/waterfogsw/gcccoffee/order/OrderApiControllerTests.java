@@ -54,7 +54,7 @@ public class OrderApiControllerTests {
     class Describe_orderAdd {
 
         @Nested
-        @DisplayName("모든 값이 유효한 경우")
+        @DisplayName("값이 생성된 경우")
         class Context_with_AllValidDate {
 
             @Test
@@ -70,7 +70,6 @@ public class OrderApiControllerTests {
                 postRequest.put("postcode", "111-111");
                 postRequest.put("orderProducts", orderProducts);
 
-                Gson gson = new Gson();
                 final var content = gson.toJson(postRequest);
                 final var request = post(url)
                         .content(content)
@@ -98,7 +97,6 @@ public class OrderApiControllerTests {
                 postRequest.put("postcode", "111-111");
                 postRequest.put("orderProducts", orderProducts);
 
-                Gson gson = new Gson();
                 final var content = gson.toJson(postRequest);
                 final var request = post(url)
                         .content(content)
@@ -126,7 +124,6 @@ public class OrderApiControllerTests {
                 postRequest.put("postcode", "111-111");
                 postRequest.put("orderProducts", orderProducts);
 
-                Gson gson = new Gson();
                 final var content = gson.toJson(postRequest);
                 final var request = post(url)
                         .content(content)
@@ -154,7 +151,6 @@ public class OrderApiControllerTests {
                 postRequest.put("postcode", "111-111");
                 postRequest.put("orderProducts", orderProducts);
 
-                Gson gson = new Gson();
                 final var content = gson.toJson(postRequest);
                 final var request = post(url)
                         .content(content)
@@ -181,7 +177,6 @@ public class OrderApiControllerTests {
                 postRequest.put("postcode", "111-111");
                 postRequest.put("orderProducts", orderProducts);
 
-                Gson gson = new Gson();
                 final var content = gson.toJson(postRequest);
                 final var request = post(url)
                         .content(content)
@@ -209,7 +204,6 @@ public class OrderApiControllerTests {
                 postRequest.put("postcode", "111-111");
                 postRequest.put("orderProducts", orderProducts);
 
-                Gson gson = new Gson();
                 final var content = gson.toJson(postRequest);
                 final var request = post(url)
                         .content(content)
@@ -236,7 +230,6 @@ public class OrderApiControllerTests {
                 postRequest.put("postcode", "111-111");
                 postRequest.put("orderProducts", orderProducts);
 
-                Gson gson = new Gson();
                 final var content = gson.toJson(postRequest);
                 final var request = post(url)
                         .content(content)
@@ -263,7 +256,6 @@ public class OrderApiControllerTests {
                 postRequest.put("address", "영통구");
                 postRequest.put("orderProducts", orderProducts);
 
-                Gson gson = new Gson();
                 final var content = gson.toJson(postRequest);
                 final var request = post(url)
                         .content(content)
