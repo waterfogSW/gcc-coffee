@@ -1,7 +1,5 @@
 package com.waterfogsw.gcccoffee.order.controller.dto;
 
-import com.waterfogsw.gcccoffee.order.model.OrderProduct;
-
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

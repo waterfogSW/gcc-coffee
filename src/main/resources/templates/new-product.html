@@ -15,29 +15,29 @@
 <h1>GNU Coffee Collection</h1>
 <h2>Product Management</h2>
 <div class="input-group input-group-sm mb-3">
-<form th:action="@{/products/new}" method="post">
-    <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" name="name">
-    </div>
-    <div class="mb-3">
-        <label for="category" class="form-label">Category</label>
-        <select id="category" name="category" class="form-select">
-            <option selected>Open this select menu</option>
-            <option value="COFFEE_BEAN_PACKAGE">COFFEE BEAN PACKAGE</option>
-            <option value="COFFEE_GRINDER">COFFEE GRINDER</option>
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="price" class="form-label">Price</label>
-        <input type="number" class="form-control" id="price" name="price">
-    </div>
-    <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <form th:action="@{/products/new}" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select id="category" name="category" class="form-select">
+                <option selected>Open this select menu</option>
+                <option value="COFFEE_BEAN_PACKAGE">COFFEE BEAN PACKAGE</option>
+                <option value="COFFEE_GRINDER">COFFEE GRINDER</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" id="price" name="price">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>
 </body>
 </html>

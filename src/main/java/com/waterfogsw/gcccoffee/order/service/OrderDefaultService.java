@@ -15,7 +15,7 @@ public class OrderDefaultService implements OrderService {
 
     @Override
     public void addOrder(Order order) {
-        if(order == null) {
+        if (order == null) {
             throw new IllegalArgumentException();
         }
 

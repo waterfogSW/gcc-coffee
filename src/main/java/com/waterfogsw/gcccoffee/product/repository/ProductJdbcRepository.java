@@ -3,7 +3,6 @@ package com.waterfogsw.gcccoffee.product.repository;
 import com.waterfogsw.gcccoffee.common.exception.ResourceNotFound;
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -91,7 +90,7 @@ public class ProductJdbcRepository implements ProductRepository {
         final var deleteSql = "delete from products where product_id = :id";
         final var affectedRow = jdbcTemplate.update(deleteSql, Collections.singletonMap("id", String.valueOf(id)));
 
-        if(affectedRow != 1) {
+        if (affectedRow != 1) {
             throw new ResourceNotFound();
         }
     }

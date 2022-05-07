@@ -1,6 +1,6 @@
 create table products
 (
-    product_id          bigint auto_increment primary key,
+    product_id  bigint auto_increment primary key,
     name        varchar(50)                              not null,
     category    varchar(50)                              not null,
     price       bigint                                   not null,
@@ -11,13 +11,13 @@ create table products
 
 create table orders
 (
-    order_id           bigint auto_increment primary key,
+    order_id     bigint auto_increment primary key,
     email        varchar(50)  not null,
     address      varchar(200) not null,
     postcode     varchar(200) not null,
     order_status varchar(50)  not null,
-    created_at    datetime(6)  not null,
-    updated_at    datetime(6) default null
+    created_at   datetime(6)  not null,
+    updated_at   datetime(6) default null
 );
 
 create table order_products
