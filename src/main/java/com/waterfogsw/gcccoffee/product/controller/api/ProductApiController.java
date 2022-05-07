@@ -7,6 +7,7 @@ import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ProductApiController {
     }
 
     @PostMapping
-    public void productAdd(@RequestBody ProductAddRequest request) {
+    public void productAdd(@Valid @RequestBody ProductAddRequest request) {
         productService.addProduct(Product.from(request));
     }
 
@@ -49,7 +50,7 @@ public class ProductApiController {
         if (id <= 0) {
             throw new IllegalArgumentException();
         }
-        
+
         productService.removeProduct(id);
     }
 }
