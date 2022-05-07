@@ -27,6 +27,26 @@ public class Product {
         this.updatedAt = updatedAt;
     }
 
+    public void setName(String name) {
+        this.name = name;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+        this.updatedAt = LocalDateTime.now();
+    }
+
     public static Product from(ProductAddRequest request) {
         return new Builder(0)
                 .name(request.name())

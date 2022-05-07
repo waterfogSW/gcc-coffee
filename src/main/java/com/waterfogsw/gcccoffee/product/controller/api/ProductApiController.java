@@ -1,6 +1,7 @@
 package com.waterfogsw.gcccoffee.product.controller.api;
 
 import com.waterfogsw.gcccoffee.product.controller.dto.ProductAddRequest;
+import com.waterfogsw.gcccoffee.product.controller.dto.ProductModifyRequest;
 import com.waterfogsw.gcccoffee.product.controller.dto.ProductResponse;
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
@@ -33,6 +34,21 @@ public class ProductApiController {
                 .sorted(sort == null ? Comparator.comparing(Product::getId) : sort.getComparator())
                 .map(ProductResponse::from)
                 .toList();
+    }
+
+    @PutMapping("/{id}")
+    public void productModify(@PathVariable("id") long id, @Valid @RequestBody ProductModifyRequest request) {
+        if (id <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        final var targetProduct = productService.findById(id);
+        targetProduct.setName(request.name());
+        targetProduct.setPrice(request.price());
+        targetProduct.setCategory(request.category());
+        targetProduct.setDescription(request.description());
+
+        productService.addProduct(targetProduct);
     }
 
     @GetMapping("/{id}")
