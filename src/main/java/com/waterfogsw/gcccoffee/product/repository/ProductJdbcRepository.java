@@ -73,21 +73,21 @@ public class ProductJdbcRepository implements ProductRepository {
     @Override
     @Transactional
     public List<Product> selectAll() {
-        return jdbcTemplate.query("select * from products", productRowMapper);
+        return jdbcTemplate.query("select * from products where deleted is false", productRowMapper);
     }
 
     @Override
     @Transactional
     public Optional<Product> selectById(long id) {
         final var param = Collections.singletonMap("id", id);
-        return jdbcTemplate.query("select * from products where product_id = :id", param, productRowMapper)
+        return jdbcTemplate.query("select * from products where product_id = :id and deleted is false", param, productRowMapper)
                 .stream().findAny();
     }
 
     @Override
     @Transactional
     public void deleteById(long id) {
-        final var deleteSql = "delete from products where product_id = :id";
+        final var deleteSql = "update products set deleted = 1 where product_id = :id";
         final var affectedRow = jdbcTemplate.update(deleteSql, Collections.singletonMap("id", String.valueOf(id)));
 
         if (affectedRow != 1) {

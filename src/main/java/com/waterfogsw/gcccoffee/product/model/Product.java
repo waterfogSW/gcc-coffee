@@ -1,5 +1,6 @@
 package com.waterfogsw.gcccoffee.product.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.waterfogsw.gcccoffee.product.controller.dto.ProductAddRequest;
 import com.waterfogsw.gcccoffee.product.controller.dto.ProductModifyRequest;
 

@@ -194,7 +194,7 @@ public class ProductJdbcRepositoryTests {
 
             @Test
             @Transactional
-            @DisplayName("해당 id 값의 엔티티를 삭제한다")
+            @DisplayName("엔티티의 delete 값이 1로 변경되며, 이후 조회되지 않는다")
             void it_deleteEntity() {
                 final var product = new Product(0, "product1", Category.COFFEE_GRINDER, 10000, "");
 
@@ -204,6 +204,7 @@ public class ProductJdbcRepositoryTests {
                 assertThat(findProduct.isPresent(), is(true));
 
                 productJdbcRepository.deleteById(1);
+
                 final var findProductAfterDelete = productJdbcRepository.selectById(1);
                 assertThat(findProductAfterDelete.isEmpty(), is(true));
             }

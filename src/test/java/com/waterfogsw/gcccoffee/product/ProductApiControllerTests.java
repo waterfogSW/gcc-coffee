@@ -615,8 +615,8 @@ public class ProductApiControllerTests {
     class Describe_productRemove {
 
         @Nested
-        @DisplayName("매개변수가 양수인 경우")
-        class Context_with_arg_over_one {
+        @DisplayName("Id 가 양수인 경우")
+        class Context_withPositiveId {
 
             @Test
             @DisplayName("service 의 removeProduct 메서드를_호출한다")
@@ -633,7 +633,7 @@ public class ProductApiControllerTests {
 
             @ParameterizedTest
             @ValueSource(longs = {-1, 0})
-            @DisplayName("service 의 removeProduct 메서드를_호출한다")
+            @DisplayName("BadRequest 응답을 한다")
             void It_call_removeProduct(long id) throws Exception {
                 final var request = delete(url + "/" + id);
                 final var resultActions = mockMvc.perform(request);

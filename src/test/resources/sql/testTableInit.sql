@@ -6,7 +6,8 @@ create table products
     price       bigint                                   not null,
     description text                                     null,
     created_at  datetime(6) default CURRENT_TIMESTAMP(6) null,
-    updated_at  datetime(6) default CURRENT_TIMESTAMP(6) null
+    updated_at  datetime(6) default CURRENT_TIMESTAMP(6) null,
+    deleted     boolean     default false                not null
 );
 
 create table orders
