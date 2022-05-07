@@ -1,10 +1,8 @@
 package com.waterfogsw.gcccoffee.order;
 
-import com.waterfogsw.gcccoffee.order.model.Email;
 import com.waterfogsw.gcccoffee.order.model.OrderProduct;
 import com.waterfogsw.gcccoffee.order.repository.OrderJdbcRepository;
 import com.waterfogsw.gcccoffee.product.model.Category;
-import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.repository.ProductJdbcRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
@@ -117,7 +115,7 @@ public class OrderJdbcRepositoryTests {
                 final var orderProduct2 = new OrderProduct(2, Category.COFFEE_GRINDER, 1000, 1);
                 final var orderProducts = new ArrayList<>(Arrays.asList(orderProduct1, orderProduct2));
                 final var order = new com.waterfogsw.gcccoffee.order.model
-                        .Order(new Email("test@naver.com"), "풍덕천동", "111-111", orderProducts);
+                        .Order("test@naver.com", "풍덕천동", "111-111", orderProducts);
 
                 assertDoesNotThrow(() -> orderJdbcRepository.insert(order));
             }

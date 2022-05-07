@@ -1,6 +1,5 @@
 package com.waterfogsw.gcccoffee.order;
 
-import com.waterfogsw.gcccoffee.order.model.Email;
 import com.waterfogsw.gcccoffee.order.model.Order;
 import com.waterfogsw.gcccoffee.order.model.OrderProduct;
 import com.waterfogsw.gcccoffee.order.repository.OrderRepository;
@@ -53,7 +52,7 @@ public class OrderDefaultServiceTests {
             void It_IllegalArgument() {
                 final var orderProduct = new OrderProduct(1, Category.COFFEE_GRINDER, 10000, 1);
                 final var orderProducts = new ArrayList<>(List.of(orderProduct));
-                final var order = new Order(new Email("test@naver.com"), "영통구", "111-111", orderProducts);
+                final var order = new Order("test@naver.com", "영통구", "111-111", orderProducts);
 
                 orderDefaultService.addOrder(order);
                 verify(orderRepository).insert(any(Order.class));

@@ -2,17 +2,19 @@ package com.waterfogsw.gcccoffee.order.controller.dto;
 
 import com.waterfogsw.gcccoffee.order.model.OrderProduct;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public record OrderAddRequest(
+        @NotEmpty @Email
         String email,
+        @NotNull
         String address,
+        @NotNull
         String postcode,
+        @NotEmpty
         List<OrderProduct> orderProducts
 ) {
-    public OrderAddRequest {
-        if (email == null || address == null || postcode == null || orderProducts == null) {
-            throw new IllegalArgumentException();
-        }
-    }
 }

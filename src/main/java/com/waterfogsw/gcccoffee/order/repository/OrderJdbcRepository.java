@@ -24,7 +24,7 @@ public class OrderJdbcRepository implements OrderRepository {
     private Map<String, Object> toOrderParamMap(final Order order) {
         final var paramMap = new HashMap<String, Object>();
         paramMap.put("id", order.getId());
-        paramMap.put("email", order.getEmail().getAddress());
+        paramMap.put("email", order.getEmail());
         paramMap.put("address", order.getAddress());
         paramMap.put("postcode", order.getPostcode());
         paramMap.put("orderStatus", order.getOrderStatus().toString());

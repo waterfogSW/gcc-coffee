@@ -2,12 +2,15 @@ package com.waterfogsw.gcccoffee.order.model;
 
 import com.waterfogsw.gcccoffee.order.controller.dto.OrderAddRequest;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order {
     private final long id;
-    private final Email email;
+    private final String email;
     private String address;
     private String postcode;
     private final List<OrderProduct> orderProducts;
@@ -15,7 +18,7 @@ public class Order {
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Order(long id, Email email, String address, String postcode, List<OrderProduct> orderProducts, OrderStatus orderStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Order(long id, String email, String address, String postcode, List<OrderProduct> orderProducts, OrderStatus orderStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.email = email;
         this.address = address;
@@ -26,12 +29,12 @@ public class Order {
         this.updatedAt = updatedAt;
     }
 
-    public Order(Email email, String address, String postcode, List<OrderProduct> orderProducts) {
+    public Order(String email, String address, String postcode, List<OrderProduct> orderProducts) {
         this(0, email, address, postcode, orderProducts, OrderStatus.ACCEPTED, LocalDateTime.now(), LocalDateTime.now());
     }
 
     public static Order from(OrderAddRequest request) {
-        return new Order(new Email(request.email()), request.address(), request.postcode(), request.orderProducts());
+        return new Order(request.email(), request.address(), request.postcode(), request.orderProducts());
     }
 
     public static Order of(long id, Order order) {
@@ -58,7 +61,7 @@ public class Order {
         return id;
     }
 
-    public Email getEmail() {
+    public String getEmail() {
         return email;
     }
 
