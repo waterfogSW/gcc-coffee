@@ -40,10 +40,10 @@ public class OrderJdbcRepository implements OrderRepository {
 
         final var paramMap = new HashMap<String, Object>();
         paramMap.put("orderId", orderId);
-        paramMap.put("productId", orderProduct.id());
-        paramMap.put("category", orderProduct.category().name());
-        paramMap.put("price", orderProduct.price());
-        paramMap.put("quantity", orderProduct.quantity());
+        paramMap.put("productId", orderProduct.getId());
+        paramMap.put("category", orderProduct.getCategory().name());
+        paramMap.put("price", orderProduct.getPrice());
+        paramMap.put("quantity", orderProduct.getQuantity());
         paramMap.put("createdAt", createdAt);
         paramMap.put("updatedAt", updatedAt);
         return paramMap;

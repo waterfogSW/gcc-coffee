@@ -5,15 +5,23 @@ import com.waterfogsw.gcccoffee.order.controller.dto.OrderAddRequest;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Order {
+    @Min(0)
     private final long id;
+    @Email
     private final String email;
+    @NotNull
     private String address;
+    @NotNull
     private String postcode;
+    @NotEmpty
     private final List<OrderProduct> orderProducts;
+
     private OrderStatus orderStatus;
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -34,7 +42,15 @@ public class Order {
     }
 
     public static Order from(OrderAddRequest request) {
-        return new Order(request.email(), request.address(), request.postcode(), request.orderProducts());
+        return new Order(
+                request.email(),
+                request.address(),
+                request.postcode(),
+                request.orderProducts()
+                        .stream()
+                        .map(OrderProduct::from)
+                        .collect(Collectors.toList())
+        );
     }
 
     public static Order of(long id, Order order) {

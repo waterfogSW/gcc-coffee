@@ -2,6 +2,7 @@ package com.waterfogsw.gcccoffee.order.controller.dto;
 
 import com.waterfogsw.gcccoffee.order.model.OrderProduct;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ public record OrderAddRequest(
         String address,
         @NotNull
         String postcode,
-        @NotEmpty
-        List<OrderProduct> orderProducts
+        @Valid @NotEmpty
+        List<OrderProductAddRequest> orderProducts
 ) {
 }

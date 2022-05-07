@@ -11,6 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -75,6 +78,90 @@ public class OrderApiControllerTests {
 
                 final var resultActions = mockMvc.perform(request);
                 resultActions.andExpect(status().isOk());
+            }
+        }
+
+        @Nested
+        @DisplayName("id 값이 양수가 아닌 상품이 존재하면")
+        class Context_with_0id_product {
+
+            @ParameterizedTest
+            @ValueSource(ints = {-1, 0})
+            @DisplayName("BadRequest 의 response 를 반환한다")
+            void it_response_BadRequest(int price) throws Exception {
+                final var orderProduct = new OrderProduct(price, Category.COFFEE_GRINDER, 10000, 1);
+                final var orderProducts = new ArrayList<>(List.of(orderProduct));
+
+                final var postRequest = new HashMap<String, Object>();
+                postRequest.put("email", "test@naver.com");
+                postRequest.put("address", "영통구");
+                postRequest.put("postcode", "111-111");
+                postRequest.put("orderProducts", orderProducts);
+
+                Gson gson = new Gson();
+                final var content = gson.toJson(postRequest);
+                final var request = post(url)
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
+
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("양수가 아닌 가격의 상품이 존재하면")
+        class Context_with_NotPositivePrice {
+
+            @ParameterizedTest
+            @ValueSource(ints = {-1, 0})
+            @DisplayName("BadRequest 의 response 를 반환한다")
+            void it_ResponseBadRequest(int price) throws Exception {
+                final var orderProduct = new OrderProduct(1, Category.COFFEE_GRINDER, price, 1);
+                final var orderProducts = new ArrayList<>(List.of(orderProduct));
+
+                final var postRequest = new HashMap<String, Object>();
+                postRequest.put("email", "test@naver.com");
+                postRequest.put("address", "영통구");
+                postRequest.put("postcode", "111-111");
+                postRequest.put("orderProducts", orderProducts);
+
+                Gson gson = new Gson();
+                final var content = gson.toJson(postRequest);
+                final var request = post(url)
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
+
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("양수가 아닌 수량의 상품이 존재하면")
+        class Context_with_NotPositiveQuantity {
+
+            @ParameterizedTest
+            @ValueSource(ints = {-1, 0})
+            @DisplayName("BadRequest 의 response 를 반환한다")
+            void it_ResponseBadRequest(int quantity) throws Exception {
+                final var orderProduct = new OrderProduct(1, Category.COFFEE_GRINDER, 1000, quantity);
+                final var orderProducts = new ArrayList<>(List.of(orderProduct));
+
+                final var postRequest = new HashMap<String, Object>();
+                postRequest.put("email", "test@naver.com");
+                postRequest.put("address", "영통구");
+                postRequest.put("postcode", "111-111");
+                postRequest.put("orderProducts", orderProducts);
+
+                Gson gson = new Gson();
+                final var content = gson.toJson(postRequest);
+                final var request = post(url)
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
+
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
             }
         }
 
