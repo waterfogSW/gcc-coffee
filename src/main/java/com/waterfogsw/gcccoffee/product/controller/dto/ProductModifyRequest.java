@@ -8,10 +8,13 @@ import javax.validation.constraints.Positive;
 public record ProductModifyRequest(
         @NotNull(message = "Name should not be null")
         String name,
+
         @NotNull(message = "Category should not be null")
         Category category,
+
         @Positive(message = "Price should be positive value")
         int price,
+
         String description
 ) {
 }

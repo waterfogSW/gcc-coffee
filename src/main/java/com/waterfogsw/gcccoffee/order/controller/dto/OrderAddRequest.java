@@ -7,13 +7,18 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public record OrderAddRequest(
-        @NotEmpty @Email
+        @NotEmpty(message = "Email should not be empty")
+        @Email(message = "Invalid email format")
         String email,
-        @NotNull
+
+        @NotNull(message = "Address should not be empty")
         String address,
-        @NotNull
+
+        @NotNull(message = "Postcode should not be empty")
         String postcode,
-        @Valid @NotEmpty
+
+        @Valid
+        @NotEmpty(message = "Order Products should not be empty")
         List<OrderProductAddRequest> orderProducts
 ) {
 }

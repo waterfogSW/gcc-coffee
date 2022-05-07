@@ -6,12 +6,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public record ProductAddRequest(
-        @NotNull
+        @NotNull(message = "Product name should not be null")
         String name,
-        @NotNull
+
+        @NotNull(message = "Product category should not be null")
         Category category,
-        @Positive
+
+        @Positive(message = "Product price should be positive")
         int price,
+
         String description
 ) {
 }

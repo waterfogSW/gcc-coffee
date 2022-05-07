@@ -6,15 +6,15 @@ import com.waterfogsw.gcccoffee.product.model.Category;
 import javax.validation.constraints.Positive;
 
 public class OrderProduct {
-    @Positive
+    @Positive(message = "Order product id should be positive")
     private final long id;
 
     private final Category category;
 
-    @Positive
+    @Positive(message = "Product price should be positive")
     private final int price;
 
-    @Positive
+    @Positive(message = "Product quantity should be positive")
     private final int quantity;
 
     public long getId() {

@@ -11,15 +11,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Order {
-    @Min(0)
+    @Min(value = 0, message = "Order id should be at least zero")
     private final long id;
-    @Email
+
+    @Email(message = "Invalid email format")
     private final String email;
-    @NotNull
+
+    @NotNull(message = "Address should not be null")
     private String address;
-    @NotNull
+
+    @NotNull(message = "Postcode should not be null")
     private String postcode;
-    @NotEmpty
+
+    @NotEmpty(message = "Order Products should not be empty")
     private final List<OrderProduct> orderProducts;
 
     private OrderStatus orderStatus;
