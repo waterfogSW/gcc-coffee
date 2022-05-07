@@ -31,8 +31,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Sql(scripts = {"classpath:sql/testTableInit.sql"})
-@Sql(scripts = {"classpath:sql/testTableRemove.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -110,28 +108,11 @@ public class OrderJdbcRepositoryTests {
         class Context_with_order_saved {
 
             @Test
+            @Sql(scripts = {"classpath:sql/testTableInit.sql", "classpath:sql/productSample.sql"})
+            @Sql(scripts = {"classpath:sql/testTableRemove.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
             @Transactional
             @DisplayName("예외가 발생하지 않는다")
             void it_return_saved_voucher() {
-                final var product1 = new Product.Builder(0).name("test")
-                        .category(Category.COFFEE_GRINDER)
-                        .price(1000)
-                        .build();
-
-                final var product2 = new Product.Builder(0).name("test")
-                        .category(Category.COFFEE_GRINDER)
-                        .price(1000)
-                        .build();
-
-                productJdbcRepository.insert(product1);
-                productJdbcRepository.insert(product2);
-
-                final var selected1 = productJdbcRepository.selectById(1);
-                final var selected2 = productJdbcRepository.selectById(2);
-
-                assertThat(selected1.isPresent(), is(true));
-                assertThat(selected2.isPresent(), is(true));
-
                 final var orderProduct1 = new OrderProduct(1, Category.COFFEE_GRINDER, 1000, 1);
                 final var orderProduct2 = new OrderProduct(2, Category.COFFEE_GRINDER, 1000, 1);
                 final var orderProducts = new ArrayList<>(Arrays.asList(orderProduct1, orderProduct2));
