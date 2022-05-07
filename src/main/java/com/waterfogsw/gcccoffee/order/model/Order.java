@@ -53,26 +53,6 @@ public class Order {
         );
     }
 
-    public static Order of(long id, Order order) {
-        return new Order(id, order.getEmail(), order.getAddress(), order.getPostcode(), order.getOrderItems(), order.getOrderStatus(), order.getCreatedAt(), order.getUpdatedAt());
-    }
-
-
-    public void setAddress(String address) {
-        this.address = address;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-        this.updatedAt = LocalDateTime.now();
-    }
-
     public long getId() {
         return id;
     }
