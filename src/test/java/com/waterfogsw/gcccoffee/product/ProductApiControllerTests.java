@@ -450,6 +450,167 @@ public class ProductApiControllerTests {
     }
 
     @Nested
+    @DisplayName("productModify 메서드는")
+    class Describe_productModify {
+
+        @Nested
+        @DisplayName("데이터 유효성검사를 통과하는 경우")
+        class Context_with_ValidData {
+
+            @Test
+            @DisplayName("Ok 응답을 반환한다")
+            void It_ResponseOk() throws Exception {
+                final var existProduct = new Product(1L, "product1", Category.COFFEE_GRINDER, 11000, "");
+                when(productService.findById(anyLong())).thenReturn(existProduct);
+
+                Map<String, String> putRequest = new HashMap<>();
+                putRequest.put("name", "colombia coffee");
+                putRequest.put("category", "COFFEE_BEAN_PACKAGE");
+                putRequest.put("price", "1000");
+
+                final var content = objectMapper.writeValueAsString(putRequest);
+                final var request = put(url + "/1")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
+
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isOk());
+            }
+        }
+
+        @Nested
+        @DisplayName("name 이 존재하지 않는 경우")
+        class Context_with_NullName {
+
+            @Test
+            @DisplayName("BadRequest 응답을 반환한다")
+            void It_ResponseBadRequest() throws Exception {
+                Map<String, String> putRequest = new HashMap<>();
+                putRequest.put("category", "COFFEE_BEAN_PACKAGE");
+                putRequest.put("price", "1000");
+
+                final var content = objectMapper.writeValueAsString(putRequest);
+                final var request = put(url + "/1")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
+
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("category 가 존재하지 않는 경우")
+        class Context_with_NullCategory {
+
+            @Test
+            @DisplayName("BadRequest 응답을 반환한다")
+            void It_ResponseBadRequest() throws Exception {
+                Map<String, String> putRequest = new HashMap<>();
+                putRequest.put("name", "kenya coffee bean");
+                putRequest.put("price", "1000");
+
+                final var content = objectMapper.writeValueAsString(putRequest);
+                final var request = put(url + "/1")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
+
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("해당 category 가 존재하지 않는 경우")
+        class Context_with_NotExistingCategory {
+
+            @Test
+            @DisplayName("BadRequest 응답을 반환한다")
+            void It_ResponseBadRequest() throws Exception {
+                Map<String, String> putRequest = new HashMap<>();
+                putRequest.put("name", "kenya coffee bean");
+                putRequest.put("category", "hello world");
+                putRequest.put("price", "1000");
+
+                final var content = objectMapper.writeValueAsString(putRequest);
+                final var request = put(url + "/1")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
+
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("price 가 양수가 아닌 경우")
+        class Context_with_NotPositivePrice {
+
+            @ParameterizedTest
+            @ValueSource(ints = {-1, 0})
+            @DisplayName("BadRequest 응답을 반환한다")
+            void It_ResponseBadRequest(int price) throws Exception {
+                Map<String, String> putRequest = new HashMap<>();
+                putRequest.put("name", "kenya coffee bean");
+                putRequest.put("category", "COFFEE_BEAN_PACKAGE");
+                putRequest.put("price", String.valueOf(price));
+
+                final var content = objectMapper.writeValueAsString(putRequest);
+                final var request = put(url + "/1")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
+
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("price 가 존재하지 않는 경우")
+        class Context_with_NullPrice {
+
+            @Test
+            @DisplayName("BadRequest 응답을 반환한다")
+            void It_ResponseBadRequest() throws Exception {
+                Map<String, String> putRequest = new HashMap<>();
+                putRequest.put("name", "kenya coffee bean");
+                putRequest.put("category", "COFFEE_BEAN_PACKAGE");
+
+                final var content = objectMapper.writeValueAsString(putRequest);
+                final var request = put(url + "/1")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
+
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("id 값이 양수가 아닌경우")
+        class Context_with_NotPositiveId {
+
+            @ParameterizedTest
+            @ValueSource(ints = {-1, 0})
+            @DisplayName("BadRequest 응답을 반환한다")
+            void It_ResponseBadRequest(int id) throws Exception {
+                Map<String, String> putRequest = new HashMap<>();
+                putRequest.put("name", "colombia coffee");
+                putRequest.put("category", "COFFEE_BEAN_PACKAGE");
+                putRequest.put("price", "1000");
+
+                final var content = objectMapper.writeValueAsString(putRequest);
+                final var request = put(url + "/" + id)
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
+
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
+            }
+        }
+    }
+
+    @Nested
     @DisplayName("productRemove 메서드는")
     class Describe_productRemove {
 
