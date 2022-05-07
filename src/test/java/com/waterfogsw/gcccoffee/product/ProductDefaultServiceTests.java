@@ -41,8 +41,8 @@ public class ProductDefaultServiceTests {
     class Describe_addProduct {
 
         @Nested
-        @DisplayName("product 인자가 null 이면")
-        class Context_with_null {
+        @DisplayName("product 가 null 인 경우")
+        class Context_withNullProduct {
 
             @Test
             @DisplayName("IllegalArgumentException 을 발생시킨다")
@@ -52,7 +52,7 @@ public class ProductDefaultServiceTests {
         }
 
         @Nested
-        @DisplayName("정상적으로 호출되면")
+        @DisplayName("product 가 null 이 아닌 경우")
         class Context_with_call {
 
             @Test
@@ -75,12 +75,12 @@ public class ProductDefaultServiceTests {
     class Describe_findAllProduct {
 
         @Nested
-        @DisplayName("호출되면")
-        class Context_with_call {
+        @DisplayName("호출 된 경우")
+        class Context_withCall {
 
             @Test
-            @DisplayName("저정된 모든 제품 List 를 반환한다")
-            void it_product_list() {
+            @DisplayName("저장된 모든 제품 List 를 반환한다")
+            void it_returnAllProductList() {
                 final var product1 = new Product(1L, "product1", Category.COFFEE_GRINDER, 10000, "");
                 final var product2 = new Product(2L, "product2", Category.COFFEE_GRINDER, 12000, "");
                 final List<Product> products = new ArrayList<>(Arrays.asList(product1, product2));
@@ -98,8 +98,8 @@ public class ProductDefaultServiceTests {
     class Describe_findById {
 
         @Nested
-        @DisplayName("존재하는 엔티티에 대한 요청이면")
-        class Context_with_exist_id {
+        @DisplayName("존재하는 엔티티에 대한 요청인 경우")
+        class Context_withExistingEntity {
 
             @Test
             @DisplayName("해당 엔티티를 반환한다")
@@ -118,8 +118,8 @@ public class ProductDefaultServiceTests {
         }
 
         @Nested
-        @DisplayName("존재하지 않는 엔티티에 대한 요청이면")
-        class Context_with_not_exist_id {
+        @DisplayName("존재하지 않는 엔티티에 대한 요청인 경우")
+        class Context_withNotExistingEntity {
 
             @Test
             @DisplayName("ResourceNotFound 에러를 발생시킨다")
@@ -135,8 +135,8 @@ public class ProductDefaultServiceTests {
     class Describe_removeProduct {
 
         @Nested
-        @DisplayName("호출되면")
-        class Context_with_call {
+        @DisplayName("호출된 경우")
+        class Context_withCall {
 
             @Test
             @DisplayName("repository 의 deleteById 메서드를_호출한다")

@@ -54,12 +54,12 @@ public class OrderApiControllerTests {
     class Describe_orderAdd {
 
         @Nested
-        @DisplayName("모든 값이 body 에 존재하면")
-        class Context_with_all_value {
+        @DisplayName("모든 값이 유효한 경우")
+        class Context_with_AllValidDate {
 
             @Test
             @DisplayName("ok status 의 response 를 반환한다")
-            void it_response_ok() throws Exception {
+            void it_ResponseOk() throws Exception {
                 final var orderProduct1 = new OrderProduct(1, Category.COFFEE_GRINDER, 10000, 1);
                 final var orderProduct2 = new OrderProduct(2, Category.COFFEE_BEAN_PACKAGE, 12000, 1);
                 final var orderProducts = new ArrayList<>(Arrays.asList(orderProduct1, orderProduct2));
@@ -82,13 +82,13 @@ public class OrderApiControllerTests {
         }
 
         @Nested
-        @DisplayName("id 값이 양수가 아닌 상품이 존재하면")
-        class Context_with_0id_product {
+        @DisplayName("id 값이 양수가 아닌 경우")
+        class Context_with_NotPositiveId {
 
             @ParameterizedTest
             @ValueSource(ints = {-1, 0})
             @DisplayName("BadRequest 의 response 를 반환한다")
-            void it_response_BadRequest(int price) throws Exception {
+            void it_ResponseBadRequest(int price) throws Exception {
                 final var orderProduct = new OrderProduct(price, Category.COFFEE_GRINDER, 10000, 1);
                 final var orderProducts = new ArrayList<>(List.of(orderProduct));
 
@@ -110,7 +110,7 @@ public class OrderApiControllerTests {
         }
 
         @Nested
-        @DisplayName("양수가 아닌 가격의 상품이 존재하면")
+        @DisplayName("가격이 양수가 아닌 경우")
         class Context_with_NotPositivePrice {
 
             @ParameterizedTest
@@ -138,7 +138,7 @@ public class OrderApiControllerTests {
         }
 
         @Nested
-        @DisplayName("양수가 아닌 수량의 상품이 존재하면")
+        @DisplayName("수량이 양수가 아닌경우")
         class Context_with_NotPositiveQuantity {
 
             @ParameterizedTest
@@ -166,8 +166,8 @@ public class OrderApiControllerTests {
         }
 
         @Nested
-        @DisplayName("email 이 body 에 존재하지 않으면")
-        class Context_without_email {
+        @DisplayName("email 이 없는 경우")
+        class Context_withoutEmail {
 
             @Test
             @DisplayName("BadRequest 의 response 를 반환한다")
@@ -193,8 +193,8 @@ public class OrderApiControllerTests {
         }
 
         @Nested
-        @DisplayName("유효하지 않은 email 이 요청되면")
-        class Context_with_invalid_email {
+        @DisplayName("email 형식에 맞지 않은 경우")
+        class Context_withInvalidEmail {
 
             @Test
             @DisplayName("BadRequest 의 response 를 반환한다")
@@ -222,11 +222,11 @@ public class OrderApiControllerTests {
 
         @Nested
         @DisplayName("주소가 없는 경우")
-        class Context_without_address {
+        class Context_withoutAddress {
 
             @Test
             @DisplayName("BadRequest 의 response 를 반환한다")
-            void it_response_ok() throws Exception {
+            void it_ResponseOk() throws Exception {
                 final var orderProduct1 = new OrderProduct(1, Category.COFFEE_GRINDER, 10000, 1);
                 final var orderProduct2 = new OrderProduct(2, Category.COFFEE_BEAN_PACKAGE, 12000, 1);
                 final var orderProducts = new ArrayList<>(Arrays.asList(orderProduct1, orderProduct2));
@@ -249,11 +249,11 @@ public class OrderApiControllerTests {
 
         @Nested
         @DisplayName("우편번호가 없는 경우")
-        class Context_without_postcode {
+        class Context_withoutPostcode {
 
             @Test
             @DisplayName("BadRequest 의 response 를 반환한다")
-            void it_response_ok() throws Exception {
+            void it_ResponseOk() throws Exception {
                 final var orderProduct1 = new OrderProduct(1, Category.COFFEE_GRINDER, 10000, 1);
                 final var orderProduct2 = new OrderProduct(2, Category.COFFEE_BEAN_PACKAGE, 12000, 1);
                 final var orderProducts = new ArrayList<>(Arrays.asList(orderProduct1, orderProduct2));
@@ -280,7 +280,7 @@ public class OrderApiControllerTests {
 
             @Test
             @DisplayName("BadRequest 의 response 를 반환한다")
-            void it_response_ok() throws Exception {
+            void it_ResponseOk() throws Exception {
                 final var postRequest = new HashMap<String, Object>();
                 postRequest.put("email", "test@naver.com");
                 postRequest.put("address", "영통구");

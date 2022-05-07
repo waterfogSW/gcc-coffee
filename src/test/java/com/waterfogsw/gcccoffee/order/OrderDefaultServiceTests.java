@@ -29,23 +29,23 @@ public class OrderDefaultServiceTests {
     OrderDefaultService orderDefaultService;
 
     @Nested
-    @DisplayName("addOrder_메서드는")
+    @DisplayName("addOrder 메서드는")
     class Describe_addOrder {
 
         @Nested
-        @DisplayName("인자가 null 이면")
-        class Context_with_argNull {
+        @DisplayName("인자가 null 인 경우")
+        class Context_withNullArgument {
 
             @Test
-            @DisplayName("IllegalArgument_에러를_발생시킨다")
+            @DisplayName("IllegalArgument 에러를 발생시킨다")
             void It_IllegalArgument() {
                 assertThrows(IllegalArgumentException.class, () -> orderDefaultService.addOrder(null));
             }
         }
 
         @Nested
-        @DisplayName("인자가 null 이면")
-        class Context_with_arg_not_null {
+        @DisplayName("인자가 null 이 아닌 경우")
+        class Context_withNotNullArgument {
 
             @Test
             @DisplayName("repository insert 메서드를 호출한다")

@@ -1,5 +1,6 @@
 package com.waterfogsw.gcccoffee.product.repository;
 
+import com.waterfogsw.gcccoffee.common.exception.ResourceNotFound;
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -87,7 +88,12 @@ public class ProductJdbcRepository implements ProductRepository {
     @Override
     @Transactional
     public void deleteById(long id) {
-        jdbcTemplate.update("delete from products where product_id = :id", Collections.singletonMap("id", String.valueOf(id)));
+        final var deleteSql = "delete from products where product_id = :id";
+        final var affectedRow = jdbcTemplate.update(deleteSql, Collections.singletonMap("id", String.valueOf(id)));
+
+        if(affectedRow != 1) {
+            throw new ResourceNotFound();
+        }
     }
 
 }

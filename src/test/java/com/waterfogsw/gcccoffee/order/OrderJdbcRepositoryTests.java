@@ -3,7 +3,6 @@ package com.waterfogsw.gcccoffee.order;
 import com.waterfogsw.gcccoffee.order.model.OrderProduct;
 import com.waterfogsw.gcccoffee.order.repository.OrderJdbcRepository;
 import com.waterfogsw.gcccoffee.product.model.Category;
-import com.waterfogsw.gcccoffee.product.repository.ProductJdbcRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class OrderJdbcRepositoryTests {
     @Autowired
     OrderJdbcRepository orderJdbcRepository;
-
-    @Autowired
-    ProductJdbcRepository productJdbcRepository;
 
     @Autowired
     DataSource dataSource;
@@ -88,11 +84,11 @@ public class OrderJdbcRepositoryTests {
     @Nested
     @Order(2)
     @DisplayName("insert 메서드는")
-    class Describe_save {
+    class Describe_insert {
 
         @Nested
-        @DisplayName("order 인자 가 null 이면")
-        class Context_with_null_argument {
+        @DisplayName("order 인자 가 null 인 경우")
+        class Context_withNullArgument {
 
             @Test
             @DisplayName("IllegalArgumentException 예외를 발생시킨다")
@@ -102,15 +98,15 @@ public class OrderJdbcRepositoryTests {
         }
 
         @Nested
-        @DisplayName("order 가 정상적으로 저장되면")
-        class Context_with_order_saved {
+        @DisplayName("order 가 정상적으로 저장된 경우")
+        class Context_withOrderSaved {
 
             @Test
             @Sql(scripts = {"classpath:sql/testTableInit.sql", "classpath:sql/productSample.sql"})
             @Sql(scripts = {"classpath:sql/testTableRemove.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
             @Transactional
             @DisplayName("예외가 발생하지 않는다")
-            void it_return_saved_voucher() {
+            void it_returnSavedVoucher() {
                 final var orderProduct1 = new OrderProduct(1, Category.COFFEE_GRINDER, 1000, 1);
                 final var orderProduct2 = new OrderProduct(2, Category.COFFEE_GRINDER, 1000, 1);
                 final var orderProducts = new ArrayList<>(Arrays.asList(orderProduct1, orderProduct2));

@@ -1,5 +1,6 @@
 package com.waterfogsw.gcccoffee.product;
 
+import com.waterfogsw.gcccoffee.common.exception.ResourceNotFound;
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.repository.ProductJdbcRepository;
@@ -10,6 +11,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -91,7 +93,7 @@ public class ProductJdbcRepositoryTests {
     class Describe_save {
 
         @Nested
-        @DisplayName("product 인자 가 null 이면")
+        @DisplayName("product 인자 가 null 인 경우")
         class Context_with_null_argument {
 
             @Test
@@ -102,7 +104,7 @@ public class ProductJdbcRepositoryTests {
         }
 
         @Nested
-        @DisplayName("product 가 정상적으로 저장되면")
+        @DisplayName("product 가 정상적으로 저장된 경우")
         class Context_with_voucher_saved {
 
             @Test
@@ -152,7 +154,7 @@ public class ProductJdbcRepositoryTests {
     class Describe_selectById {
 
         @Nested
-        @DisplayName("존재하는 엔티티를 조회하면")
+        @DisplayName("존재하는 엔티티 의 id 값인 경우")
         class Context_with_exist_Entity {
 
             @Test
@@ -169,7 +171,7 @@ public class ProductJdbcRepositoryTests {
         }
 
         @Nested
-        @DisplayName("존재하지않는 엔티티를 조회하면")
+        @DisplayName("존재하지 않는 엔티티 의 id 값인 경우")
         class Context_with_not_exist_Entity {
 
             @Test
@@ -184,14 +186,17 @@ public class ProductJdbcRepositoryTests {
 
     @Nested
     @Order(5)
-    class deleteById_메서드는 {
+    @DisplayName("deleteById 메서드는")
+    class describe_deleteById {
 
         @Nested
-        class 호출되면 {
+        @DisplayName("인자가 존재하는 엔티티의 id 값인 경우")
+        class context_withExistingEntity {
 
             @Test
             @Transactional
-            void 해당_id_값의_레코드를_삭제한다() {
+            @DisplayName("해당 id 값의 엔티티를 삭제한다")
+            void it_deleteEntity() {
                 final var product = new Product(0, "product1", Category.COFFEE_GRINDER, 10000, "");
 
                 productJdbcRepository.insert(product);
@@ -202,6 +207,18 @@ public class ProductJdbcRepositoryTests {
                 productJdbcRepository.deleteById(1);
                 final var findProductAfterDelete = productJdbcRepository.selectById(1);
                 assertThat(findProductAfterDelete.isEmpty(), is(true));
+            }
+        }
+
+        @Nested
+        @DisplayName("인자가 존재하지 않는 엔티티의 id 값인 경우")
+        class context_withNotExistingEntity {
+
+            @Test
+            @Transactional
+            @DisplayName("ResourceNotFound 예외가 발생한다")
+            void it_throwResourceNotFound() {
+                assertThrows(ResourceNotFound.class, () -> productJdbcRepository.deleteById(1));
             }
         }
     }
