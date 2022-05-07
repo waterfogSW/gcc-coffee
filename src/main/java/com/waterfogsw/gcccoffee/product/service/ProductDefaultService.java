@@ -17,7 +17,7 @@ public class ProductDefaultService implements ProductService {
     }
 
     @Override
-    public void addProduct(Product product) {
+    public void saveProduct(Product product) {
         if (product == null) {
             throw new IllegalArgumentException();
         }

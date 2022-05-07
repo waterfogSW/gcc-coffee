@@ -23,7 +23,7 @@ public class ProductApiController {
 
     @PostMapping
     public void productAdd(@Valid @RequestBody ProductAddRequest request) {
-        productService.addProduct(Product.from(request));
+        productService.saveProduct(Product.from(request));
     }
 
     @GetMapping
@@ -48,7 +48,7 @@ public class ProductApiController {
         targetProduct.setCategory(request.category());
         targetProduct.setDescription(request.description());
 
-        productService.addProduct(targetProduct);
+        productService.saveProduct(targetProduct);
     }
 
     @GetMapping("/{id}")

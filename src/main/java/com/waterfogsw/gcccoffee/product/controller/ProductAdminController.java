@@ -35,7 +35,7 @@ public class ProductAdminController {
 
     @PostMapping("/products/new")
     public String newProduct(ProductAddRequest request) {
-        productService.addProduct(Product.from(request));
+        productService.saveProduct(Product.from(request));
         return "redirect:/products";
     }
 

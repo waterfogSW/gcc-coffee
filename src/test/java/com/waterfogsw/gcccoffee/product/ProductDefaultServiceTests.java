@@ -37,7 +37,7 @@ public class ProductDefaultServiceTests {
     ProductDefaultService productService;
 
     @Nested
-    @DisplayName("addProduct 메서드는")
+    @DisplayName("saveProduct 메서드는")
     class Describe_addProduct {
 
         @Nested
@@ -47,7 +47,7 @@ public class ProductDefaultServiceTests {
             @Test
             @DisplayName("IllegalArgumentException 을 발생시킨다")
             void it_throw_IllegalArgumentException() {
-                assertThrows(IllegalArgumentException.class, () -> productService.addProduct(null));
+                assertThrows(IllegalArgumentException.class, () -> productService.saveProduct(null));
             }
         }
 
@@ -64,7 +64,7 @@ public class ProductDefaultServiceTests {
                         .price(1000)
                         .build();
 
-                productService.addProduct(product);
+                productService.saveProduct(product);
                 verify(productRepository).insert(any());
             }
         }
