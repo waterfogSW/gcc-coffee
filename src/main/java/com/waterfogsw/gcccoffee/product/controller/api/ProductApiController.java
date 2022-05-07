@@ -43,11 +43,7 @@ public class ProductApiController {
         }
 
         final var targetProduct = productService.findById(id);
-        targetProduct.setName(request.name());
-        targetProduct.setPrice(request.price());
-        targetProduct.setCategory(request.category());
-        targetProduct.setDescription(request.description());
-
+        targetProduct.modify(request);
         productService.saveProduct(targetProduct);
     }
 

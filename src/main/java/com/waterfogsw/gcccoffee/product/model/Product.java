@@ -1,6 +1,7 @@
 package com.waterfogsw.gcccoffee.product.model;
 
 import com.waterfogsw.gcccoffee.product.controller.dto.ProductAddRequest;
+import com.waterfogsw.gcccoffee.product.controller.dto.ProductModifyRequest;
 
 import java.time.LocalDateTime;
 
@@ -27,23 +28,11 @@ public class Product {
         this.updatedAt = updatedAt;
     }
 
-    public void setName(String name) {
-        this.name = name;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void modify(ProductModifyRequest request) {
+        this.name = request.name();
+        this.category = request.category();
+        this.price = request.price();
+        this.description = request.description();
         this.updatedAt = LocalDateTime.now();
     }
 
