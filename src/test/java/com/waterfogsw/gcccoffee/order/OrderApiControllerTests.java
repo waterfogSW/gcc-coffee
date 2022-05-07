@@ -58,8 +58,8 @@ public class OrderApiControllerTests {
         class Context_with_AllValidDate {
 
             @Test
-            @DisplayName("ok status 의 response 를 반환한다")
-            void it_ResponseOk() throws Exception {
+            @DisplayName("created response 를 반환한다")
+            void it_ResponseCreated() throws Exception {
                 final var orderProduct1 = new OrderProduct(1, Category.COFFEE_GRINDER, 10000, 1);
                 final var orderProduct2 = new OrderProduct(2, Category.COFFEE_BEAN_PACKAGE, 12000, 1);
                 final var orderProducts = new ArrayList<>(Arrays.asList(orderProduct1, orderProduct2));
@@ -76,7 +76,7 @@ public class OrderApiControllerTests {
                         .contentType(MediaType.APPLICATION_JSON);
 
                 final var resultActions = mockMvc.perform(request);
-                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(status().isCreated());
             }
         }
 
@@ -278,7 +278,6 @@ public class OrderApiControllerTests {
                 postRequest.put("address", "영통구");
                 postRequest.put("postcode", "111-111");
 
-                Gson gson = new Gson();
                 final var content = gson.toJson(postRequest);
                 final var request = post(url)
                         .content(content)

@@ -6,6 +6,7 @@ import com.waterfogsw.gcccoffee.product.controller.dto.ProductResponse;
 import com.waterfogsw.gcccoffee.product.model.Category;
 import com.waterfogsw.gcccoffee.product.model.Product;
 import com.waterfogsw.gcccoffee.product.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,6 +23,7 @@ public class ProductApiController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void productAdd(@Valid @RequestBody ProductAddRequest request) {
         productService.saveProduct(Product.from(request));
     }

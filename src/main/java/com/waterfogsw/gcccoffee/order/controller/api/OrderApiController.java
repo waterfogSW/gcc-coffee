@@ -3,10 +3,8 @@ package com.waterfogsw.gcccoffee.order.controller.api;
 import com.waterfogsw.gcccoffee.order.controller.dto.OrderAddRequest;
 import com.waterfogsw.gcccoffee.order.model.Order;
 import com.waterfogsw.gcccoffee.order.service.OrderService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -20,6 +18,7 @@ public class OrderApiController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void orderAdd(@Valid @RequestBody OrderAddRequest request) {
         orderService.addOrder(Order.from(request));
     }

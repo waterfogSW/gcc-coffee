@@ -173,8 +173,8 @@ public class ProductApiControllerTests {
         class Context_withAllValid {
 
             @Test
-            @DisplayName("ok status 의 response 를 반환한다")
-            void it_ResponseOk() throws Exception {
+            @DisplayName("created response 를 반환한다")
+            void it_ResponseCreated() throws Exception {
                 final Product product = new Product.Builder(1L)
                         .name("colombia coffee")
                         .category(Category.COFFEE_BEAN_PACKAGE)
@@ -192,7 +192,7 @@ public class ProductApiControllerTests {
                         .contentType(MediaType.APPLICATION_JSON);
 
                 final var resultActions = mockMvc.perform(request);
-                resultActions.andExpect(status().isOk());
+                resultActions.andExpect(status().isCreated());
             }
         }
     }
